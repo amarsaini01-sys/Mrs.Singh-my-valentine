@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffafbd;
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Container for the hearts */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
+            animation: float 6s infinite linear;
+            bottom: -50px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .buttons {
+            position: relative;
+            height: 60px;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #noBtn {
+            background-color: #888;
+            color: white;
+            position: absolute;
+        }
+
+        .hidden { display: none; }
+        
+        #celebration h1 {
+            font-size: 2.5rem;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-bg" id="heartContainer"></div>
+
+    <div id="quiz" class="container">
+        <h1>"If hearts had addresses, mine would already be headed to you.<br><br>This Valentine's day, may I keep it there and be yours and you be only mine?"</h1>
+        
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">Yes! ❤️</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        </div>
+    </div>
+
+    <div id="celebration" class="container hidden">
+        <h1>❤️ YES! ❤️</h1>
+        <p>I'm officially yours!</p>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const container = document.getElementById('heartContainer');
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            
+            container.appendChild(heart);
+            
+            setTimeout(() => { heart.remove(); }, 6000);
+        }
+        setInterval(createHeart, 300);
+
+        // Make "No" button move
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('celebration').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
